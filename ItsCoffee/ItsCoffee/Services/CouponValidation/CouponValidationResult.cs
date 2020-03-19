@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ItsCoffee.Core.Services.OrderValidation
+namespace ItsCoffee.Core.Services.CouponValidation
 {
-    public abstract class OrderValidationResult
+    public abstract class CouponValidationResult
     {
-        public class SuccessfulResult : OrderValidationResult
+        public class SuccessfulResult : CouponValidationResult
         {
-        }
 
-        public class FailedResult : OrderValidationResult
+        }
+        public class FailedResult : CouponValidationResult
         {
             public IEnumerable<string> ValidationMessages;
-
             public FailedResult(string validationMessage)
             {
                 ValidationMessages = new[]
@@ -19,7 +20,6 @@ namespace ItsCoffee.Core.Services.OrderValidation
                     validationMessage
                 };
             }
-
             public FailedResult(IEnumerable<string> validationMessages)
             {
                 ValidationMessages = validationMessages;
