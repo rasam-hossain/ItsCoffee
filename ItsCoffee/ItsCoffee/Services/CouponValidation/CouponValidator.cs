@@ -9,16 +9,16 @@ namespace ItsCoffee.Core.Services
 {
     public class CouponValidator : IValidate<Coupon>
     {
-        private readonly IEnumerable<IValidateCoupon> _couponValidator;
+        private readonly IEnumerable<IValidateCoupon> _couponValidators;
 
-        public CouponValidator(IEnumerable<IValidateCoupon> couponValidator)
+        public CouponValidator(IEnumerable<IValidateCoupon> couponValidators)
         {
-            _couponValidator = couponValidator ?? throw new ArgumentNullException(nameof(couponValidator));
+            _couponValidators = couponValidators ?? throw new ArgumentNullException(nameof(couponValidators));
         }
 
         public IEnumerable<string> GetValidationMessages(Coupon coupon)
         {
-            return _couponValidator
+            return _couponValidators
                 .Select(validator => validator.Validate(coupon))
                 .OfType<CouponValidationResult.FailedResult>()
                 .Select(result => result.ValidationMessages)
