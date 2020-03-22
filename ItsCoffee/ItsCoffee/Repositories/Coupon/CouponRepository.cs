@@ -23,12 +23,12 @@ namespace ItsCoffee.Core.Repositories
             _db.Open();
             using (var transaction = _db.BeginTransaction())
             {
-                var sql = "INSERT INTO 'Coupon' (OrderId, CouponId, CouponCode, CouponType, DiscountAmount) " +
-                          "VALUES (@OrderId, @CouponId, @CouponCode, @CouponType, @DiscountAmount);";
+                var sql = "INSERT INTO 'Coupon' (CouponId, CouponCode, CouponType, DiscountAmount) " +
+                          "VALUES (@CouponId, @CouponCode, @CouponType, @DiscountAmount);";
 
                 _db.Execute(sql, new
                 {
-                    OrderId = order.OrderId,
+                    //OrderId = order.OrderId,
                     CouponID = order.Coupon.CouponID,
                     CouponCode = order.Coupon.CouponCode,
                     CouponType = order.Coupon.CouponType,
@@ -56,10 +56,10 @@ namespace ItsCoffee.Core.Repositories
 
         public Coupon GetCoupon(string couponCode)
         {
-            var coupon = _db.Query<Coupon>("SELECT * FROM Coupon where CouponCode = @couponCode;",
+            var coupon = _db.Query<Coupon>("SELECT * FROM Coupon where CouponCode = @value;",
                     new
                     {
-                        CouponCode = couponCode
+                        value = couponCode
                     })
                 .ToList()
                 .FirstOrDefault();

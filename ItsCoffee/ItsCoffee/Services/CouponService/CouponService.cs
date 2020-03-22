@@ -2,6 +2,7 @@
 using ItsCoffee.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ItsCoffee.Core.Services
@@ -9,9 +10,21 @@ namespace ItsCoffee.Core.Services
     public class CouponService
     {
         private readonly ICouponRepository _couponRepository;
-        public CouponService(ICouponRepository couponRepository)
+        private readonly IValidate<Coupon> _couponValidator;
+        public CouponService(ICouponRepository couponRepository, IValidate<Coupon> couponValidator)
         {
             _couponRepository = couponRepository;
+            _couponValidator = couponValidator;
+        }
+
+        public void ProcessCoupon(Order order)
+        {
+            if (!_couponValidator.IsValid(order.Coupon))
+            {
+                throw new ValidationException(String.Join("\r\n", _couponValidator.GetValidationMessages(order.Coupon)));
+            }
+
+            _couponRepository.AddCoupon(order);
         }
         public void ApplyCouponToOrder(Order order)
         {

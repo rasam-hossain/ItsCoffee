@@ -16,10 +16,9 @@ namespace ItsCoffee.Core.Tests
         public void Add_Coupon_To_DB_And_Retrieve_It_Back()
         {
             var order = GetValidOrder();
-            var couponService = new CouponService(new CouponRepository(_testDbConnection));
+            var couponService = CouponService;
             order.AddCouponToOrder(new Coupon(Guid.NewGuid(), "TENOFF", CouponType.Percentage, 10));
-            
-            
+            //couponService.ProcessCoupon(order);
 
             //Act
             couponService.AddCoupon(order);
@@ -29,6 +28,26 @@ namespace ItsCoffee.Core.Tests
             //Assert
             Assert.Equal("TENOFF", returnedCoupon.CouponCode);
             Assert.Equal("10", returnedCoupon.DiscountAmount.ToString());
+        }
+
+        [Fact]
+        public void Create_An_Order_With_Invalid_Coupon_Code()
+        {
+            // THis test needs to be fixed
+            //var order = GetValidOrder();
+            //var couponService = CouponService;
+            //order.AddCouponToOrder(new Coupon(Guid.NewGuid(), "TWENTYOFF", CouponType.Percentage, 10));
+
+
+
+            ////Act
+            //couponService.AddCoupon(order);
+            //var returnedCoupon = couponService.GetCoupon("TWENTYOFF");
+
+
+            ////Assert
+            //Assert.Equal("TENOFF", returnedCoupon.CouponCode);
+            //Assert.Equal("10", returnedCoupon.DiscountAmount.ToString());
         }
 
         private readonly ITestOutputHelper _output;

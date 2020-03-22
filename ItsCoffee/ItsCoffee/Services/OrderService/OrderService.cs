@@ -10,12 +10,16 @@ namespace ItsCoffee.Core.Services
         private readonly IOrderRepository _orderRepository;
         private readonly HandleOrderProcessedEvent _orderProcessedEvent;
         private readonly IValidate<Order> _orderValidator;
+        private readonly ICouponRepository _couponRepository;
+        private readonly IValidate<Coupon> _couponValidator;
 
-        public OrderService(IOrderRepository orderRepository, HandleOrderProcessedEvent orderProcessedEvent, IValidate<Order> orderValidator)
+        public OrderService(IOrderRepository orderRepository, HandleOrderProcessedEvent orderProcessedEvent, IValidate<Order> orderValidator, ICouponRepository couponRepository, IValidate<Coupon> couponValidator)
         {
-            this._orderRepository = orderRepository;
-            this._orderProcessedEvent = orderProcessedEvent;
+            _orderRepository = orderRepository;
+            _orderProcessedEvent = orderProcessedEvent;
             _orderValidator = orderValidator;
+            _couponRepository = couponRepository;
+            _couponValidator = couponValidator;
         }
         public void ProcessOrder(Order order)
         {

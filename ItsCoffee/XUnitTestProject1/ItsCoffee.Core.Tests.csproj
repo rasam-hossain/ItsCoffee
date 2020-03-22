@@ -8,7 +8,7 @@
 
 
   <ItemGroup>
-    <Content Include="Database\ItsCoffee.db">
+    <Content Include="ItsCoffee.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

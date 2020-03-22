@@ -7,6 +7,7 @@ using Dapper;
 using ItsCoffee.Core.Entities;
 using ItsCoffee.Core.Repositories;
 using ItsCoffee.Core.Services;
+using ItsCoffee.Core.Services.CouponValidation;
 using ItsCoffee.Core.Services.OrderValidation;
 
 namespace ItsCoffee.Core.Tests
@@ -38,8 +39,19 @@ namespace ItsCoffee.Core.Tests
 
         protected OrderService OrderService => new OrderService(new OrderRepository(_testDbConnection),
                 GetHandleOrderProcessedEvents(_testDbConnection),
-                OrderValidator);
+                OrderValidator,
+                new CouponRepository(_testDbConnection),
+                new CouponValidator(
+                    new List<IValidateCoupon> { new ValidateCouponCodeAvailable()},
+                    new CouponRepository(_testDbConnection))
+                );
 
+        private CouponValidator CouponValidator => new CouponValidator(new List<IValidateCoupon>
+        {
+            new ValidateCouponCodeIsUnique()
+        }, new CouponRepository(_testDbConnection));
+
+        protected CouponService CouponService => new CouponService(new CouponRepository(_testDbConnection), CouponValidator);
         private OrderValidator OrderValidator => new OrderValidator( new List<IValidatePartOfAnOrder> 
             {
                 new ValidatePartOfUniqueIdentifier(), 
